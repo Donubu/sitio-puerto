@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Bitter } from "next/font/google";
+import {Bitter, Spectral} from "next/font/google";
 import { ThemeProvider } from '@/components/theme-provider';
 import { Navbar } from '@/components/navbar';
 import { Footer } from '@/components/footer';
@@ -9,6 +9,7 @@ import { Toaster } from '@/components/ui/toaster';
 import './globals.css';
 
 const bitter = Bitter({ subsets: ['latin'] });
+const spectral = Spectral({ weight:['300', '400', '700'] , subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: 'Agencia de Publicidad Puerto | Marketing Digital en Chile',
