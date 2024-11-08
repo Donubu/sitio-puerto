@@ -8,9 +8,7 @@ import { ProjectHero } from '@/components/project/project-hero';
 import { getProjectBySlug, getRelatedProjects } from '@/lib/projects';
 
 interface ProjectPageProps {
-  params: {
-    slug: string;
-  };
+  params: Promise<{ slug: string }>
 }
 
 export default async function ProjectPage({ params }: ProjectPageProps) {
