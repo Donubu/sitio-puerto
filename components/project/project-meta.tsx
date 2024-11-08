@@ -28,21 +28,21 @@ interface MetaSectionProps {
 function MetaSection({ icon: Icon, title, children }: MetaSectionProps) {
   return (
     <div className="space-y-2">
-      <div className="flex items-center gap-2 text-white/90 font-semibold">
+      <div className="flex items-center gap-2 text-gray-900 font-semibold">
         <Icon className="h-5 w-5" />
         <h3>{title}</h3>
       </div>
-      <div className="text-white/80">{children}</div>
+      <div className="text-gray-600">{children}</div>
     </div>
   );
 }
 
-export function ProjectMeta({ 
-  publishDate, 
-  awards, 
-  client, 
+export function ProjectMeta({
+  publishDate,
+  awards,
+  client,
   tags,
-  category 
+  category
 }: ProjectMetaProps) {
   const shareUrl = typeof window !== 'undefined' ? window.location.href : '';
   const shareText = `Mira este increíble proyecto`;
@@ -69,7 +69,7 @@ export function ProjectMeta({
   ];
 
   return (
-    <aside className="space-y-8">
+    <aside className="space-y-8 bg-gray-50 rounded-xl p-8">
       <div className="space-y-6">
         <MetaSection icon={Calendar} title="Fecha de publicación">
           {format(new Date(publishDate), "d 'de' MMMM, yyyy", { locale: es })}
@@ -96,7 +96,7 @@ export function ProjectMeta({
             {tags.map((tag, index) => (
               <span
                 key={index}
-                className="inline-flex items-center px-3 py-1 rounded-full text-sm bg-white/10 text-white"
+                className="inline-flex items-center px-3 py-1 rounded-full text-sm bg-gray-100 text-gray-700"
               >
                 {tag}
               </span>
@@ -104,10 +104,10 @@ export function ProjectMeta({
           </div>
         </MetaSection>
 
-        <div className="pt-4 border-t border-white/10">
+        <div className="pt-4 border-t border-gray-200">
           <div className="flex items-center gap-2">
-            <Share2 className="h-4 w-4 text-white/80" />
-            <span className="text-sm font-medium text-white/80">Compartir</span>
+            <Share2 className="h-4 w-4 text-gray-600" />
+            <span className="text-sm font-medium text-gray-700">Compartir</span>
           </div>
           <div className="flex gap-2 mt-3">
             <TooltipProvider>
@@ -116,9 +116,9 @@ export function ProjectMeta({
                   <TooltipTrigger asChild>
                     <button
                       onClick={() => window.open(link.url, '_blank')}
-                      className="p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors duration-200"
+                      className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors duration-200"
                     >
-                      <link.icon className="h-4 w-4 text-white" />
+                      <link.icon className="h-4 w-4 text-gray-700" />
                     </button>
                   </TooltipTrigger>
                   <TooltipContent>

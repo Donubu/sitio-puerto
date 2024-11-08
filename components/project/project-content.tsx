@@ -153,7 +153,7 @@ export function ProjectContent({ content }: ProjectContentProps) {
   };
 
   return (
-    <div className="max-w-none">
+    <div className="max-w-none bg-white">
       {content.map((block, index) => renderContent(block, index))}
     </div>
   );

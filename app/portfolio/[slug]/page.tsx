@@ -8,14 +8,16 @@ import { ProjectHero } from '@/components/project/project-hero';
 import { getProjectBySlug, getRelatedProjects } from '@/lib/projects';
 
 interface ProjectPageProps {
-  params: Promise<{ slug: string }>
+  params: {
+    slug: string;
+  };
 }
 
 export default async function ProjectPage({ params }: ProjectPageProps) {
   try {
     const { slug } = await params;
     const project = getProjectBySlug(slug);
-    
+
     if (!project) {
       return notFound();
     }
@@ -23,21 +25,18 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
     const relatedProjects = getRelatedProjects(project.id, 2);
 
     return (
-      <main className="bg-white">
-        <ProjectHeader 
-          title={project.title} 
+      <main style={{ backgroundColor: project.backgroundColor }}>
+        <ProjectHeader
+          title={project.title}
           excerpt={project.excerpt}
         />
-            
-        <ProjectHero media={project.heroMedia} />
 
-        <section className="py-16">
-          <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        <section className="">
+          <ProjectHero media={project.heroMedia} />
+
+          <div className="bg-white rounded  max-w-7xl mx-auto p-6 lg:px-8 mt-32">
             <div className="grid grid-cols-1 lg:grid-cols-[350px,1fr] gap-12">
-              <div 
-                className="rounded-xl p-8 self-start sticky top-24"
-                style={{ backgroundColor: project.backgroundColor }}
-              >
+              <div className="">
                 <ProjectMeta
                   publishDate={project.publishDate}
                   awards={project.awards}
@@ -46,7 +45,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                   category={project.category}
                 />
               </div>
-            
+
               <ProjectContent content={project.content} />
             </div>
           </div>

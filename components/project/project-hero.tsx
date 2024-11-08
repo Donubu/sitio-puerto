@@ -17,21 +17,34 @@ interface ProjectHeroProps {
 export function ProjectHero({ media }: ProjectHeroProps) {
   const [currentIndex, setCurrentIndex] = useState(1);
   const [isAnimating, setIsAnimating] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const getVisibleMedia = () => {
     const items = [...media];
     while (items.length < 3) {
       items.push(...media);
     }
-    
+
+    if (isMobile) {
+      return [items[currentIndex]];
+    }
+
     const start = ((currentIndex - 1) + items.length) % items.length;
-    const visibleItems = [
+    return [
       items[(start - 1 + items.length) % items.length],
       items[start],
       items[(start + 1) % items.length]
     ];
-    
-    return visibleItems;
   };
 
   const nextSlide = () => {
@@ -55,16 +68,28 @@ export function ProjectHero({ media }: ProjectHeroProps) {
   }, [currentIndex]);
 
   const MediaItem = ({ item, index }: { item: Media, index: number }) => {
-    const isCenter = index === 1;
+    const isCenter = isMobile || index === 1;
+    const isLeft = !isMobile && index === 0;
+
+    const handleClick = () => {
+      if (isAnimating) return;
+      if (isLeft) {
+        prevSlide();
+      } else if (!isCenter) {
+        nextSlide();
+      }
+    };
 
     return (
       <div
-        className={`min-h-96 relative overflow-hidden rounded-lg transition-all duration-500 ${
-          isCenter ? 'w-full md:w-[100%] z-20' : 'w-full md:w-full z-10 opacity-50'
+        onClick={!isCenter ? handleClick : undefined}
+        className={`relative overflow-hidden rounded-lg transition-all duration-500 ${
+          isCenter 
+            ? 'w-full md:w-[50%] z-20 min-h-[50vh] md:min-h-[70vh]' 
+            : 'hidden md:block w-[25%] opacity-50 min-h-[50vh] cursor-pointer hover:opacity-70'
         }`}
         style={{
-          aspectRatio: '16/9',
-          transform: isCenter ? 'scale(2)' : 'scale(.8)',
+          transform: isCenter ? 'scale(1)' : 'scale(.95)',
         }}
       >
         {item.type === 'video' ? (
@@ -89,32 +114,46 @@ export function ProjectHero({ media }: ProjectHeroProps) {
   };
 
   return (
-    <div className="w-full md:w-[100%] mx-auto relative px-4 md:px-0">
+    <div className="w-full mx-auto relative px-4 md:px-0">
       <div className="relative overflow-hidden">
-        <div className="flex items-center justify-center gap-4 md:gap-8">
+        <div className="flex items-center justify-center gap-4">
           {getVisibleMedia().map((item, index) => (
             <MediaItem key={index} item={item} index={index} />
           ))}
         </div>
       </div>
 
-      <Button
-        variant="outline"
-        size="icon"
-        className="absolute left-8 top-1/2 -translate-y-1/2 z-30"
+      <button
         onClick={prevSlide}
+        className="absolute left-4 md:left-12 top-1/2 -translate-y-1/2 z-30 p-3 text-black/50 hover:text-black transition-colors duration-200 transform hover:scale-110"
       >
-        <ChevronLeft className="h-4 w-4" />
-      </Button>
+        <ChevronLeft className="h-12 w-12" />
+      </button>
 
-      <Button
-        variant="outline"
-        size="icon"
-        className="absolute right-8 top-1/2 -translate-y-1/2 z-30"
+      <button
         onClick={nextSlide}
+        className="absolute right-4 md:right-12 top-1/2 -translate-y-1/2 z-30 p-3 text-black/50 hover:text-black transition-colors duration-200 transform hover:scale-110"
       >
-        <ChevronRight className="h-4 w-4" />
-      </Button>
+        <ChevronRight className="h-12 w-12" />
+      </button>
+
+      {/* Navigation Dots */}
+      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex space-x-2 z-30">
+        {media.map((_, index) => (
+          <button
+            key={index}
+            className={`w-2 h-2 rounded-full transition-all duration-300 ${
+              index === currentIndex ? 'bg-black w-8' : 'bg-black/50'
+            }`}
+            onClick={() => {
+              if (!isAnimating) {
+                setIsAnimating(true);
+                setCurrentIndex(index);
+              }
+            }}
+          />
+        ))}
+      </div>
     </div>
   );
 }

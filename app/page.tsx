@@ -65,9 +65,11 @@ export default function Home() {
       {/* Hero Section with Video Slider */}
       <HeroSlider />
 
+      <div className="h-screen" /> {/* Spacer for hero section */}
+
       {/* Content that scrolls over the hero */}
       <div className="relative z-10">
-        <div className="h-screen" /> {/* Spacer for hero section */}
+
 
         {/* Portfolio Masonry */}
         <div className="bg-white">

@@ -32,7 +32,7 @@ const slides = [
   },
 ];
 
-const SLIDE_DURATION = 8000; // 8 seconds per slide
+const SLIDE_DURATION = 800000; // 8 seconds per slide
 
 export function HeroSlider() {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -169,7 +169,7 @@ export function HeroSlider() {
       {/* Navigation Arrows */}
       <button
         onClick={prevSlide}
-        className="absolute left-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/50 text-white hover:bg-black/70 transition-colors z-20"
+        className="absolute left-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/50 text-white hover:bg-black/70 transition-colors z-[40]"
       >
         <ChevronLeft className="h-6 w-6" />
       </button>
